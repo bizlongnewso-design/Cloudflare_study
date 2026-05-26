@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloudflare Pages 完全ガイド</title>
+  <meta name="description" content="Cloudflare Pagesの仕組み・使い方・料金を日本語でわかりやすく解説する完全ガイド">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ===== Navbar ===== -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">☁️</div>
+      CF Pages Guide
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">ホーム</a></li>
+      <li><a href="pages/what-is.html">概要</a></li>
+      <li><a href="pages/getting-started.html">はじめ方</a></li>
+      <li><a href="pages/deployment.html">デプロイ</a></li>
+      <li><a href="pages/features.html">機能</a></li>
+      <li><a href="pages/pricing.html">料金</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" title="テーマ切替">☀️</button>
+      <button class="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav">
+  <a href="index.html">🏠 ホーム</a>
+  <a href="pages/what-is.html">📖 Cloudflare Pagesとは</a>
+  <a href="pages/getting-started.html">🚀 はじめ方・セットアップ</a>
+  <a href="pages/deployment.html">⚙️ デプロイの仕組み</a>
+  <a href="pages/features.html">✨ 機能・特徴</a>
+  <a href="pages/pricing.html">💰 料金プラン</a>
+</div>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">☁️ Cloudflare Pages 完全ガイド</div>
+    <h1>
+      世界最速の<br>
+      <span>静的サイトホスティング</span><br>
+      を使いこなそう
+    </h1>
+    <p>
+      GitHubと連携するだけで、エッジネットワークへの自動デプロイが完成。
+      開発者のための、無料から始められる次世代ホスティングサービスを徹底解説します。
+    </p>
+    <div class="hero-buttons">
+      <a href="pages/getting-started.html" class="btn btn-primary">🚀 今すぐ始める</a>
+      <a href="pages/what-is.html" class="btn btn-outline">📖 詳しく知る</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-value"><span data-count="300">0</span>+</div>
+        <div class="stat-label">エッジロケーション</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value"><span data-count="0">0</span>ms</div>
+        <div class="stat-label">コールドスタート</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">∞</div>
+        <div class="stat-label">無料プレビュー環境</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">99.9%</div>
+        <div class="stat-label">SLA稼働率</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Pages Navigation ===== -->
+<section style="background: var(--bg); padding: 4rem 2rem;">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">コンテンツ</div>
+      <h2 class="section-title">ガイドの章構成</h2>
+      <p class="section-desc">5つの章に分けて、Cloudflare Pagesを体系的に学べます</p>
+    </div>
+
+    <div class="pages-grid stagger">
+      <a href="pages/what-is.html" class="page-card">
+        <div class="page-card-icon">📖</div>
+        <h3>Cloudflare Pagesとは</h3>
+        <p>サービスの概要・歴史・特徴を理解する</p>
+      </a>
+      <a href="pages/getting-started.html" class="page-card">
+        <div class="page-card-icon">🚀</div>
+        <h3>はじめ方・セットアップ</h3>
+        <p>アカウント作成からデプロイまでの手順</p>
+      </a>
+      <a href="pages/deployment.html" class="page-card">
+        <div class="page-card-icon">⚙️</div>
+        <h3>デプロイの仕組み</h3>
+        <p>ビルドパイプライン・CDN配信の裏側</p>
+      </a>
+      <a href="pages/features.html" class="page-card">
+        <div class="page-card-icon">✨</div>
+        <h3>機能・特徴</h3>
+        <p>Functions・カスタムドメイン・分析など</p>
+      </a>
+      <a href="pages/pricing.html" class="page-card">
+        <div class="page-card-icon">💰</div>
+        <h3>料金プラン</h3>
+        <p>無料・Pro・他社サービスとの比較</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Overview Cards ===== -->
+<section style="padding: 4rem 2rem;">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">なぜ選ばれるのか</div>
+      <h2 class="section-title">Cloudflare Pagesが<br>選ばれる3つの理由</h2>
+    </div>
+
+    <div class="overview-grid stagger">
+      <div class="overview-card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">圧倒的な配信速度</div>
+        <p class="card-desc">
+          世界300以上のエッジロケーションから最寄りのサーバーでコンテンツを配信。
+          ユーザーの場所に関わらず、ほぼゼロレイテンシーを実現します。
+        </p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🆓</div>
+        <div class="card-title">太っ腹な無料枠</div>
+        <p class="card-desc">
+          無料プランでも帯域無制限・サイト数無制限。毎月500回のビルド、
+          プレビューURLで無制限のコラボレーションが可能です。
+        </p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🔗</div>
+        <div class="card-title">Git連携で自動デプロイ</div>
+        <p class="card-desc">
+          GitHubやGitLabにpushするだけで自動ビルド＆デプロイ。
+          PRごとにプレビューURLが生成され、チームレビューがスムーズです。
+        </p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-title">エンタープライズ級セキュリティ</div>
+        <p class="card-desc">
+          DDoS保護・WAF・SSL/TLS証明書の自動発行が標準搭載。
+          追加費用なしでセキュリティを確保できます。
+        </p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🔧</div>
+        <div class="card-title">フレームワーク対応</div>
+        <p class="card-desc">
+          React、Vue、Nuxt、Next.js、SvelteKit、Astroなど
+          主要フレームワークを自動検出してビルド設定を最適化します。
+        </p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🌐</div>
+        <div class="card-title">Workers統合</div>
+        <p class="card-desc">
+          Pages Functionsを使えばサーバーレス関数もエッジで実行可能。
+          フルスタックアプリケーションをPages単体で構築できます。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Feature Highlight ===== -->
+<section class="feature-highlight" style="padding: 5rem 2rem;">
+  <div class="container">
+    <div class="feature-split">
+      <div class="feature-text reveal-left">
+        <div class="section-tag">エッジ配信</div>
+        <h2>Cloudflareのグローバル<br>ネットワークをフル活用</h2>
+        <p>
+          Cloudflareは世界最大規模のCDNインフラを保有。
+          Pagesはそのネットワーク上でコンテンツを配信するため、
+          どこからアクセスしても高速なレスポンスが保証されます。
+        </p>
+        <ul class="feature-list">
+          <li>300以上のデータセンターで自動的に地理冗長</li>
+          <li>エッジキャッシングで繰り返しアクセスを超高速化</li>
+          <li>HTTP/3 (QUIC) 対応で最新プロトコルを自動適用</li>
+          <li>ゼロダウンタイムデプロイでサービス継続性を維持</li>
+        </ul>
+      </div>
+      <div class="feature-visual reveal-right">
+        <div style="font-size:0.85rem; color:rgba(255,255,255,0.7); margin-bottom:1rem;">
+          🌐 グローバルエッジネットワーク
+        </div>
+        <div style="display:flex; flex-direction:column; gap:0.6rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); border-radius:8px; padding:0.6rem 1rem;">
+            <span style="color:#fff;">🇯🇵 東京 (NRT)</span>
+            <span style="color:#fbad41; font-weight:700;">2ms</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); border-radius:8px; padding:0.6rem 1rem;">
+            <span style="color:#fff;">🇺🇸 サンフランシスコ (SFO)</span>
+            <span style="color:#fbad41; font-weight:700;">8ms</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); border-radius:8px; padding:0.6rem 1rem;">
+            <span style="color:#fff;">🇩🇪 フランクフルト (FRA)</span>
+            <span style="color:#fbad41; font-weight:700;">11ms</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); border-radius:8px; padding:0.6rem 1rem;">
+            <span style="color:#fff;">🇸🇬 シンガポール (SIN)</span>
+            <span style="color:#fbad41; font-weight:700;">5ms</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); border-radius:8px; padding:0.6rem 1rem;">
+            <span style="color:#fff;">🇧🇷 サンパウロ (GRU)</span>
+            <span style="color:#fbad41; font-weight:700;">14ms</span>
+          </div>
+        </div>
+        <div style="text-align:center; margin-top:1rem; color:rgba(255,255,255,0.45); font-size:0.8rem;">
+          * 各エッジノードからのコンテンツ配信レイテンシ例
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Quick Start Teaser ===== -->
+<section style="padding: 5rem 2rem; background: var(--bg);">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">クイックスタート</div>
+      <h2 class="section-title">3ステップで<br>サイトを公開できる</h2>
+      <p class="section-desc">複雑なサーバー設定は一切不要。GitリポジトリさえあればOKです。</p>
+    </div>
+
+    <div class="steps reveal" style="max-width:660px; margin: 0 auto 2.5rem;">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>GitHubリポジトリを連携</h3>
+          <p>Cloudflareダッシュボードからリポジトリを選択するだけ。OAuthで安全に接続されます。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>ビルド設定を確認</h3>
+          <p>フレームワークを自動検出し、ビルドコマンドと出力ディレクトリを提案。ほぼそのままOKです。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>デプロイ完了！</h3>
+          <p>数秒〜数分でビルドが完了し、<code>xxx.pages.dev</code>のURLで即公開されます。</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;" class="reveal">
+      <a href="pages/getting-started.html" class="btn btn-primary">詳しいセットアップ手順を見る →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<div class="cta-section reveal">
+  <h2>まずは無料で始めてみよう</h2>
+  <p>クレジットカード不要。GitHubアカウントがあればすぐにスタートできます。</p>
+  <a href="pages/getting-started.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);">
+    🚀 無料ではじめる
+  </a>
+</div>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo" style="color:#fff;">
+          <div class="logo-icon">☁️</div>
+          CF Pages Guide
+        </a>
+        <p>Cloudflare Pagesの使い方を日本語でわかりやすく解説する非公式ガイドサイトです。</p>
+      </div>
+      <div class="footer-col">
+        <h4>ガイド</h4>
+        <ul class="footer-links">
+          <li><a href="pages/what-is.html">Pagesとは</a></li>
+          <li><a href="pages/getting-started.html">はじめ方</a></li>
+          <li><a href="pages/deployment.html">デプロイ</a></li>
+          <li><a href="pages/features.html">機能</a></li>
+          <li><a href="pages/pricing.html">料金</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>関連技術</h4>
+        <ul class="footer-links">
+          <li><a href="#">Cloudflare Workers</a></li>
+          <li><a href="#">Cloudflare D1</a></li>
+          <li><a href="#">Cloudflare R2</a></li>
+          <li><a href="#">Cloudflare KV</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>公式リソース</h4>
+        <ul class="footer-links">
+          <li><a href="https://pages.cloudflare.com" target="_blank" rel="noopener">Cloudflare Pages</a></li>
+          <li><a href="https://developers.cloudflare.com/pages/" target="_blank" rel="noopener">開発者ドキュメント</a></li>
+          <li><a href="https://community.cloudflare.com" target="_blank" rel="noopener">コミュニティ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CF Pages Guide — 非公式サイト</span>
+      <span class="footer-note">このサイトはCloudflareの公式サイトではありません</span>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" title="トップへ戻る">↑</button>
+
+<script src="js/main.js"></script>
+</body>
+</html>

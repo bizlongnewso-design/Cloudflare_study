@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>はじめ方・セットアップ — CF Pages Guide</title>
+  <meta name="description" content="Cloudflare Pagesのアカウント作成からデプロイまでの手順を日本語でステップバイステップ解説">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="../index.html" class="logo"><div class="logo-icon">☁️</div>CF Pages Guide</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="what-is.html">概要</a></li>
+      <li><a href="getting-started.html">はじめ方</a></li>
+      <li><a href="deployment.html">デプロイ</a></li>
+      <li><a href="features.html">機能</a></li>
+      <li><a href="pricing.html">料金</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" title="テーマ切替">☀️</button>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-nav">
+  <a href="../index.html">🏠 ホーム</a>
+  <a href="what-is.html">📖 Cloudflare Pagesとは</a>
+  <a href="getting-started.html">🚀 はじめ方・セットアップ</a>
+  <a href="deployment.html">⚙️ デプロイの仕組み</a>
+  <a href="features.html">✨ 機能・特徴</a>
+  <a href="pricing.html">💰 料金プラン</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-hero-icon">🚀</span>
+    <h1>はじめ方・セットアップ</h1>
+    <p>アカウント作成から最初のデプロイまで、ステップバイステップで丁寧に解説します</p>
+  </div>
+</div>
+
+<div class="content-layout">
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <div class="sidebar-title">このページの内容</div>
+      <ul class="sidebar-links">
+        <li><a href="#prerequisites">事前準備</a></li>
+        <li><a href="#account">アカウント作成</a></li>
+        <li><a href="#create-project">プロジェクト作成</a></li>
+        <li><a href="#build-settings">ビルド設定</a></li>
+        <li><a href="#env-vars">環境変数の設定</a></li>
+        <li><a href="#custom-domain">カスタムドメイン</a></li>
+        <li><a href="#cli">CLIデプロイ</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="breadcrumb">
+      <a href="../index.html">ホーム</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">はじめ方・セットアップ</span>
+    </div>
+
+    <h2 id="prerequisites" class="reveal">事前準備</h2>
+    <p class="reveal">Cloudflare Pagesを始めるために必要なものは非常にシンプルです。</p>
+
+    <div class="overview-grid stagger" style="margin-bottom:2rem;">
+      <div class="overview-card">
+        <div class="card-icon">📧</div>
+        <div class="card-title">Cloudflareアカウント</div>
+        <p class="card-desc">無料で作成できます。クレジットカード不要。メールアドレスのみでOKです。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🐙</div>
+        <div class="card-title">GitHubまたはGitLabアカウント</div>
+        <p class="card-desc">ソースコードを管理するリポジトリが必要です。どちらも無料で作成できます。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">📁</div>
+        <div class="card-title">Webプロジェクト</div>
+        <p class="card-desc">HTMLファイルだけでもOK。React、Vue、Nuxt等のフレームワークも使えます。</p>
+      </div>
+    </div>
+
+    <div class="info-box blue reveal">
+      <div class="info-box-title">📌 対応フレームワーク例</div>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+        React / Vue.js / Nuxt.js / Next.js / SvelteKit / Astro / Gatsby / Hugo / Jekyll /
+        Eleventy / Angular / Remix など主要フレームワークを自動検出してビルド設定を提案します。
+      </p>
+    </div>
+
+    <h2 id="account" class="reveal">ステップ1: アカウント作成</h2>
+    <p class="reveal">まずCloudflareのアカウントを作成します。</p>
+
+    <div class="steps reveal" style="max-width:100%;">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Cloudflareサイトにアクセス</h3>
+          <p><code>dash.cloudflare.com</code> にアクセスし、「サインアップ」をクリックします。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>メールアドレスとパスワードを入力</h3>
+          <p>有効なメールアドレスと安全なパスワードを入力してアカウントを作成します。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>メール確認</h3>
+          <p>登録したメールアドレスに確認メールが届くので、リンクをクリックして確認を完了します。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>ダッシュボードへ</h3>
+          <p>ログイン後、Cloudflareダッシュボードが表示されます。左サイドバーから「Pages」を選択します。</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="create-project" class="reveal">ステップ2: プロジェクト作成</h2>
+    <p class="reveal">Pagesダッシュボードから新しいプロジェクトを作成します。</p>
+
+    <div class="tabs reveal">
+      <div class="tab-list">
+        <button class="tab-btn active">Git連携でデプロイ（推奨）</button>
+        <button class="tab-btn">直接アップロード</button>
+      </div>
+      <div class="tab-panel active">
+        <div class="steps" style="max-width:100%; margin-top:1rem;">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>「新しいプロジェクトを作成」をクリック</h3>
+              <p>Pagesダッシュボードの「新しいプロジェクトを作成」ボタンをクリックします。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>「Gitに接続」を選択</h3>
+              <p>「Gitに接続」オプションを選択し、GitHubまたはGitLabを選びます。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>GitHubアカウントを認証</h3>
+              <p>OAuthでGitHubにサインインし、Cloudflareがアクセスできるリポジトリを選択します。特定のリポジトリのみに制限することも可能です。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h3>デプロイするリポジトリを選択</h3>
+              <p>一覧からデプロイしたいリポジトリを選択し「セットアップの開始」をクリックします。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel">
+        <p style="margin-top:1rem;">ビルド済みのファイル（HTML・CSS・JS等）を直接アップロードする方法もあります。</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename">Wrangler CLI</span>
+          </div>
+          <div class="code-body">
+<pre><span class="c-comment"># Wrangler CLIを使った直接アップロード</span>
+npx wrangler pages deploy ./dist \
+  --project-name=my-project
+
+<span class="c-comment"># または特定のブランチとして</span>
+npx wrangler pages deploy ./dist \
+  --project-name=my-project \
+  --branch=staging</pre>
+          </div>
+        </div>
+        <p style="margin-top:0.8rem; color:var(--text-light); font-size:0.9rem;">直接アップロードはCI/CDツールからのデプロイや、Gitを使わない場合に便利です。</p>
+      </div>
+    </div>
+
+    <h2 id="build-settings" class="reveal">ステップ3: ビルド設定</h2>
+    <p class="reveal">
+      フレームワークを自動検出した場合は推奨設定が自動入力されます。
+      手動で設定する場合の主な設定項目を説明します。
+    </p>
+
+    <div class="reveal" style="overflow-x:auto; margin:1.5rem 0;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>フレームワーク</th>
+            <th>ビルドコマンド</th>
+            <th>出力ディレクトリ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag tag-blue">React</span> Create React App</td>
+            <td><code>npm run build</code></td>
+            <td><code>build</code></td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-green">Vue.js</span> Vite</td>
+            <td><code>npm run build</code></td>
+            <td><code>dist</code></td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-green">Nuxt.js</span></td>
+            <td><code>npx nuxt generate</code></td>
+            <td><code>.output/public</code></td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-blue">Next.js</span></td>
+            <td><code>npx next build</code></td>
+            <td><code>.vercel/output/static</code> *</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-orange">Astro</span></td>
+            <td><code>npm run build</code></td>
+            <td><code>dist</code></td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-orange">SvelteKit</span></td>
+            <td><code>npm run build</code></td>
+            <td><code>.svelte-kit/cloudflare</code></td>
+          </tr>
+          <tr>
+            <td>静的HTML</td>
+            <td>（なし）</td>
+            <td><code>/</code> または <code>public</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box reveal">
+      <div class="info-box-title">⚠️ Next.jsの注意点</div>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+        Next.jsのSSRモードを使う場合は <code>@cloudflare/next-on-pages</code> アダプターが必要です。
+        また一部のNode.js専用APIはEdge Runtimeでは動作しないため、コードの確認が必要です。
+      </p>
+    </div>
+
+    <h2 id="env-vars" class="reveal">環境変数の設定</h2>
+    <p class="reveal">
+      APIキーやデータベースURLなどの機密情報は、ソースコードに直接書かず環境変数として設定します。
+    </p>
+
+    <div class="code-block reveal">
+      <div class="code-header">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+        <span class="code-filename">環境変数の設定方法</span>
+      </div>
+      <div class="code-body">
+<pre><span class="c-comment"># ダッシュボードでの設定</span>
+Settings → Environment variables → Add variable
+
+<span class="c-comment"># ビルド時に利用可能な環境変数</span>
+<span class="c-prop">VITE_API_URL</span>=<span class="c-string">https://api.example.com</span>
+<span class="c-prop">NEXT_PUBLIC_SITE_URL</span>=<span class="c-string">https://mysite.pages.dev</span>
+
+<span class="c-comment"># Pages Functions (サーバーサイド) でのみ使える機密変数</span>
+<span class="c-prop">DATABASE_URL</span>=<span class="c-string">postgres://...</span>
+<span class="c-prop">API_SECRET_KEY</span>=<span class="c-string">sk_live_...</span>
+
+<span class="c-comment"># wrangler.toml での設定例</span>
+[vars]
+<span class="c-prop">ENVIRONMENT</span> = <span class="c-string">"production"</span></pre>
+      </div>
+    </div>
+
+    <div class="info-box blue reveal">
+      <div class="info-box-title">💡 本番/プレビュー環境の分離</div>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+        環境変数は「本番環境」と「プレビュー環境」に分けて設定できます。
+        開発ブランチのPRプレビューではテスト用のAPIキーを使い、
+        mainブランチの本番デプロイでは本番用のキーを使うといった設定が可能です。
+      </p>
+    </div>
+
+    <h2 id="custom-domain" class="reveal">カスタムドメインの設定</h2>
+    <p class="reveal">
+      デフォルトでは <code>[プロジェクト名].pages.dev</code> でアクセスできます。
+      独自ドメインを使いたい場合の手順を説明します。
+    </p>
+
+    <div class="steps reveal" style="max-width:100%;">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>プロジェクトの「カスタムドメイン」タブを開く</h3>
+          <p>Pagesダッシュボード → プロジェクト選択 → 「カスタムドメイン」タブ → 「カスタムドメインを設定」をクリック。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>ドメイン名を入力</h3>
+          <p>設定したいドメイン（例: <code>www.example.com</code>）を入力して「続行」をクリックします。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>DNSレコードを設定</h3>
+          <p>
+            ドメインがCloudflare管理下にある場合は自動設定されます。
+            他のDNSプロバイダーの場合は表示されるCNAMEまたはAレコードを手動で追加します。
+          </p>
+          <div class="code-block" style="margin-top:0.8rem;">
+            <div class="code-header">
+              <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+              <span class="code-filename">DNS設定例</span>
+            </div>
+            <div class="code-body">
+<pre><span class="c-comment"># CNAMEレコード（サブドメイン用）</span>
+<span class="c-prop">NAME</span>: www
+<span class="c-prop">TYPE</span>: CNAME
+<span class="c-prop">VALUE</span>: myproject.pages.dev
+
+<span class="c-comment"># またはAレコード（ルートドメイン用）</span>
+<span class="c-prop">NAME</span>: @
+<span class="c-prop">TYPE</span>: A
+<span class="c-prop">VALUE</span>: 192.0.2.1  <span class="c-comment"># Cloudflareが指定する値</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>SSL証明書の発行（自動）</h3>
+          <p>DNS設定が反映されると、Let's EncryptによるSSL/TLS証明書が自動発行されます。通常数分〜数時間で完了します。</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="cli" class="reveal">Wrangler CLIを使ったデプロイ</h2>
+    <p class="reveal">
+      コマンドラインからデプロイする場合は <strong>Wrangler CLI</strong> を使います。
+      CI/CDパイプラインへの組み込みにも最適です。
+    </p>
+
+    <div class="code-block reveal">
+      <div class="code-header">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+        <span class="code-filename">Wranglerのインストールとデプロイ</span>
+      </div>
+      <div class="code-body">
+<pre><span class="c-comment"># Wrangler CLIをインストール</span>
+npm install -g wrangler
+
+<span class="c-comment"># Cloudflareにログイン</span>
+wrangler login
+
+<span class="c-comment"># プロジェクトをビルド</span>
+npm run build
+
+<span class="c-comment"># Pagesにデプロイ</span>
+wrangler pages deploy ./dist --project-name=my-project
+
+<span class="c-comment"># GitHub Actionsでの自動デプロイ例</span>
+<span class="c-comment"># .github/workflows/deploy.yml に以下を追加:</span>
+- name: Deploy to Cloudflare Pages
+  uses: cloudflare/pages-action@v1
+  with:
+    apiToken: <span class="c-string">${{ secrets.CLOUDFLARE_API_TOKEN }}</span>
+    accountId: <span class="c-string">${{ secrets.CLOUDFLARE_ACCOUNT_ID }}</span>
+    projectName: my-project
+    directory: dist</pre>
+      </div>
+    </div>
+
+    <div class="page-nav">
+      <a href="what-is.html" class="page-nav-item">
+        <div class="page-nav-label">← 前へ</div>
+        <div class="page-nav-title">📖 Cloudflare Pagesとは</div>
+      </a>
+      <a href="deployment.html" class="page-nav-item next">
+        <div class="page-nav-label">次へ →</div>
+        <div class="page-nav-title">⚙️ デプロイの仕組み</div>
+      </a>
+    </div>
+  </main>
+</div>
+
+<div class="cta-section reveal">
+  <h2>デプロイの仕組みを深く理解しよう</h2>
+  <p>次のページではビルドパイプラインとCDN配信の詳細を解説します</p>
+  <a href="deployment.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);">⚙️ デプロイの仕組みを見る</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo" style="color:#fff;"><div class="logo-icon">☁️</div>CF Pages Guide</a>
+        <p>Cloudflare Pagesの使い方を日本語でわかりやすく解説する非公式ガイドサイトです。</p>
+      </div>
+      <div class="footer-col">
+        <h4>ガイド</h4>
+        <ul class="footer-links">
+          <li><a href="what-is.html">Pagesとは</a></li>
+          <li><a href="getting-started.html">はじめ方</a></li>
+          <li><a href="deployment.html">デプロイ</a></li>
+          <li><a href="features.html">機能</a></li>
+          <li><a href="pricing.html">料金</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CF Pages Guide — 非公式サイト</span>
+      <span class="footer-note">このサイトはCloudflareの公式サイトではありません</span>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" title="トップへ戻る">↑</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>料金プラン — CF Pages Guide</title>
+  <meta name="description" content="Cloudflare Pagesの無料・Proプランの違いと、Vercel・Netlifyとのコスト比較を日本語で解説">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="../index.html" class="logo"><div class="logo-icon">☁️</div>CF Pages Guide</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="what-is.html">概要</a></li>
+      <li><a href="getting-started.html">はじめ方</a></li>
+      <li><a href="deployment.html">デプロイ</a></li>
+      <li><a href="features.html">機能</a></li>
+      <li><a href="pricing.html">料金</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" title="テーマ切替">☀️</button>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-nav">
+  <a href="../index.html">🏠 ホーム</a>
+  <a href="what-is.html">📖 Cloudflare Pagesとは</a>
+  <a href="getting-started.html">🚀 はじめ方・セットアップ</a>
+  <a href="deployment.html">⚙️ デプロイの仕組み</a>
+  <a href="features.html">✨ 機能・特徴</a>
+  <a href="pricing.html">💰 料金プラン</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-hero-icon">💰</span>
+    <h1>料金プラン</h1>
+    <p>無料プランで何ができるか、有料プランはいつ必要か、他サービスとのコストを徹底比較します</p>
+  </div>
+</div>
+
+<div class="content-layout">
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <div class="sidebar-title">このページの内容</div>
+      <ul class="sidebar-links">
+        <li><a href="#plans">プラン一覧</a></li>
+        <li><a href="#free-details">無料プランの詳細</a></li>
+        <li><a href="#pro-details">Proプランの詳細</a></li>
+        <li><a href="#functions-pricing">Functions料金</a></li>
+        <li><a href="#compare-services">他社サービスとの比較</a></li>
+        <li><a href="#which-plan">どのプランを選ぶべきか</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="breadcrumb">
+      <a href="../index.html">ホーム</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">料金プラン</span>
+    </div>
+
+    <h2 id="plans" class="reveal">プラン一覧</h2>
+    <p class="reveal">
+      Cloudflare Pagesは2つの主要プランを提供しています。
+      ほとんどのユースケースでは無料プランで十分です。
+    </p>
+
+    <div class="pricing-grid stagger" style="margin-bottom:2.5rem;">
+      <!-- Free -->
+      <div class="pricing-card">
+        <div class="pricing-name">Free</div>
+        <div class="pricing-desc">個人・小規模プロジェクト向け</div>
+        <div class="pricing-price">$0<small>/月</small></div>
+        <div class="pricing-period">クレジットカード不要</div>
+        <ul class="pricing-features">
+          <li>プロジェクト数: 無制限</li>
+          <li>帯域幅: <strong>無制限</strong></li>
+          <li>ビルド: 500回/月</li>
+          <li>コンカレントビルド: 1</li>
+          <li>カスタムドメイン: 無制限</li>
+          <li>プレビューデプロイ: 無制限</li>
+          <li>Pages Functions: 100,000リクエスト/日</li>
+          <li>メンバー: 無制限</li>
+          <li class="unavail">高度なアクセス制御</li>
+          <li class="unavail">優先サポート</li>
+        </ul>
+        <a href="getting-started.html" class="btn btn-outline" style="width:100%; justify-content:center; border-color:var(--border); color:var(--text);">
+          無料で始める
+        </a>
+      </div>
+
+      <!-- Pro -->
+      <div class="pricing-card featured">
+        <div class="pricing-badge">最も人気</div>
+        <div class="pricing-name">Pro</div>
+        <div class="pricing-desc">チーム・中規模サービス向け</div>
+        <div class="pricing-price">$20<small>/月</small></div>
+        <div class="pricing-period">年払いで$200/年（2ヶ月分お得）</div>
+        <ul class="pricing-features">
+          <li>プロジェクト数: 無制限</li>
+          <li>帯域幅: <strong>無制限</strong></li>
+          <li>ビルド: 5,000回/月</li>
+          <li>コンカレントビルド: 5</li>
+          <li>カスタムドメイン: 無制限</li>
+          <li>プレビューデプロイ: 無制限</li>
+          <li>Pages Functions: 10,000,000リクエスト/月</li>
+          <li>メンバー: 無制限</li>
+          <li>高度なアクセス制御</li>
+          <li>優先サポート</li>
+        </ul>
+        <a href="getting-started.html" class="btn btn-primary" style="width:100%; justify-content:center;">
+          Proを試す
+        </a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="pricing-card">
+        <div class="pricing-name">Enterprise</div>
+        <div class="pricing-desc">大規模・エンタープライズ向け</div>
+        <div class="pricing-price" style="font-size:1.8rem;">要相談</div>
+        <div class="pricing-period">専用サポートあり</div>
+        <ul class="pricing-features">
+          <li>カスタムビルド制限</li>
+          <li>SLAギャランティ (99.99%)</li>
+          <li>専用IPアドレス</li>
+          <li>エンタープライズWAF</li>
+          <li>24/7専任サポート</li>
+          <li>カスタム契約・請求</li>
+          <li>Cloudflare One統合</li>
+          <li>高度なセキュリティ機能</li>
+        </ul>
+        <a href="#" class="btn btn-outline" style="width:100%; justify-content:center; border-color:var(--border); color:var(--text);">
+          営業に問い合わせ
+        </a>
+      </div>
+    </div>
+
+    <h2 id="free-details" class="reveal">無料プランで本当に使えるのか？</h2>
+    <p class="reveal">
+      結論から言うと、<strong>多くの本番サービスで無料プランで十分です</strong>。
+      帯域無制限という点が他社と根本的に異なります。
+    </p>
+
+    <div class="overview-grid stagger">
+      <div class="overview-card">
+        <div class="card-icon" style="background:rgba(34,197,94,0.1);">✅</div>
+        <div class="card-title">無料で使えるケース</div>
+        <p class="card-desc">
+          個人ブログ・ポートフォリオ・ドキュメントサイト・企業LP・中規模Webアプリ。
+          月500ビルド内であれば問題なし。
+        </p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon" style="background:rgba(246,130,31,0.1);">⚠️</div>
+        <div class="card-title">Proが必要なケース</div>
+        <p class="card-desc">
+          コミットが多く月500ビルドを超える場合、複数人での並行開発でコンカレントビルドが不足する場合、
+          Functions呼び出しが多い場合。
+        </p>
+      </div>
+    </div>
+
+    <div class="info-box green reveal">
+      <div class="info-box-title">✅ 無料プランの最大のメリット：帯域無制限</div>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+        Vercel・Netlifyの無料プランは100GB/月で超過すると課金されますが、
+        Cloudflare Pagesは無料でも帯域が完全無制限です。
+        大量のトラフィックが来ても追加料金なし。これは非常に大きな差別化ポイントです。
+      </p>
+    </div>
+
+    <h2 id="pro-details" class="reveal">Proプランの詳細</h2>
+    <p class="reveal">月額$20のProプランで追加される主な機能を確認しましょう。</p>
+
+    <div class="reveal" style="overflow-x:auto; margin:1.5rem 0;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>機能</th>
+            <th>Free</th>
+            <th>Pro ($20/月)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ビルド回数/月</td>
+            <td>500回</td>
+            <td><strong>5,000回</strong></td>
+          </tr>
+          <tr>
+            <td>コンカレントビルド</td>
+            <td>1</td>
+            <td><strong>5</strong></td>
+          </tr>
+          <tr>
+            <td>Pages Functions リクエスト/月</td>
+            <td>100,000/日</td>
+            <td><strong>10,000,000/月</strong></td>
+          </tr>
+          <tr>
+            <td>ビルドタイムアウト</td>
+            <td>20分</td>
+            <td><strong>30分</strong></td>
+          </tr>
+          <tr>
+            <td>Cloudflare Access統合</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>優先サポート</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>帯域幅</td>
+            <td><span class="check">無制限</span></td>
+            <td><span class="check">無制限</span></td>
+          </tr>
+          <tr>
+            <td>プロジェクト数</td>
+            <td><span class="check">無制限</span></td>
+            <td><span class="check">無制限</span></td>
+          </tr>
+          <tr>
+            <td>カスタムドメイン</td>
+            <td><span class="check">無制限</span></td>
+            <td><span class="check">無制限</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="functions-pricing" class="reveal">Pages Functions の料金詳細</h2>
+    <p class="reveal">
+      Pages Functionsはリクエスト数とCPU時間に基づいて課金されます。
+    </p>
+
+    <div class="overview-grid stagger">
+      <div class="overview-card">
+        <div class="card-icon">🆓</div>
+        <div class="card-title">無料枠（Free プラン）</div>
+        <p class="card-desc">
+          <strong>100,000リクエスト/日</strong><br>
+          CPU時間: 10ms/リクエスト<br>
+          超過分は自動停止
+        </p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">⭐</div>
+        <div class="card-title">Workers Paid ($5/月〜)</div>
+        <p class="card-desc">
+          <strong>10,000,000リクエスト/月</strong>（含む）<br>
+          CPU時間: 30ms/リクエスト<br>
+          超過: $0.30/百万リクエスト
+        </p>
+      </div>
+    </div>
+
+    <div class="info-box blue reveal">
+      <div class="info-box-title">💡 Workers Paidプランとの関係</div>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+        Pages FunctionsのリクエストはCloudflare Workersと同じ料金体系です。
+        月間100万リクエストを超える場合は別途<strong>Workers Paid ($5/月)</strong>プランへの加入が必要です。
+        Pages ProはWorkers Paidを含む形で月$20です。
+      </p>
+    </div>
+
+    <h2 id="compare-services" class="reveal">他社サービスとのコスト比較</h2>
+    <p class="reveal">実際のユースケースでのコストを比較します。</p>
+
+    <div class="tabs reveal">
+      <div class="tab-list">
+        <button class="tab-btn active">個人ブログ（月10万PV）</button>
+        <button class="tab-btn">中規模サービス（月100万PV）</button>
+        <button class="tab-btn">大規模サービス（月1000万PV）</button>
+      </div>
+      <div class="tab-panel active">
+        <div style="overflow-x:auto;">
+          <table class="compare-table" style="margin-top:1rem;">
+            <thead>
+              <tr>
+                <th>サービス</th>
+                <th>月額コスト</th>
+                <th>備考</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>☁️ Cloudflare Pages</strong></td>
+                <td><strong class="check">$0</strong></td>
+                <td>帯域無制限。ビルド数内に収まる場合</td>
+              </tr>
+              <tr>
+                <td>▲ Vercel</td>
+                <td>$0</td>
+                <td>100GB帯域内なら無料</td>
+              </tr>
+              <tr>
+                <td>◆ Netlify</td>
+                <td>$0</td>
+                <td>100GB帯域内なら無料</td>
+              </tr>
+              <tr>
+                <td>🐙 GitHub Pages</td>
+                <td>$0</td>
+                <td>機能制限あり（Functions不可）</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem; font-size:0.9rem; color:var(--text-light);">月10万PVレベルでは各社とも無料範囲内に収まります。</p>
+      </div>
+      <div class="tab-panel">
+        <div style="overflow-x:auto;">
+          <table class="compare-table" style="margin-top:1rem;">
+            <thead>
+              <tr>
+                <th>サービス</th>
+                <th>月額コスト（概算）</th>
+                <th>備考</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>☁️ Cloudflare Pages</strong></td>
+                <td><strong class="check">$0〜$20</strong></td>
+                <td>帯域無制限。ビルド数超過時のみProへ</td>
+              </tr>
+              <tr>
+                <td>▲ Vercel</td>
+                <td>$20〜$50</td>
+                <td>Proプラン必須＋帯域超過課金の可能性</td>
+              </tr>
+              <tr>
+                <td>◆ Netlify</td>
+                <td>$19〜$60</td>
+                <td>Starterプラン＋帯域超過課金</td>
+              </tr>
+              <tr>
+                <td>🐙 GitHub Pages</td>
+                <td>$0</td>
+                <td>機能制限が大きく実用的でない場合も</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem; font-size:0.9rem; color:var(--text-light);">月100万PV規模になるとCloudflareの帯域無制限が大きく効いてきます。</p>
+      </div>
+      <div class="tab-panel">
+        <div style="overflow-x:auto;">
+          <table class="compare-table" style="margin-top:1rem;">
+            <thead>
+              <tr>
+                <th>サービス</th>
+                <th>月額コスト（概算）</th>
+                <th>備考</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>☁️ Cloudflare Pages</strong></td>
+                <td><strong class="check">$20〜</strong></td>
+                <td>帯域無制限のため予測可能なコスト</td>
+              </tr>
+              <tr>
+                <td>▲ Vercel</td>
+                <td>$500〜$3,000+</td>
+                <td>Enterprise/帯域超過で大幅増加</td>
+              </tr>
+              <tr>
+                <td>◆ Netlify</td>
+                <td>$200〜$2,000+</td>
+                <td>Business プラン＋帯域超課金</td>
+              </tr>
+              <tr>
+                <td>自前AWS/GCP</td>
+                <td>$100〜$500+</td>
+                <td>管理コスト・人件費別途</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem; font-size:0.9rem; color:var(--text-light);">大規模になればなるほどCloudflareのコスト優位性が顕著になります。</p>
+      </div>
+    </div>
+
+    <h2 id="which-plan" class="reveal">どのプランを選ぶべきか</h2>
+
+    <div class="accordion reveal">
+      <div class="accordion-item">
+        <button class="accordion-header">
+          個人サイト・ポートフォリオ・ブログを作りたい
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <strong>→ 無料プランで十分です。</strong><br><br>
+            月500ビルドは週に1〜2回コミットしても余裕があります。
+            帯域も無制限なので、どれだけアクセスされても課金されません。
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header">
+          チームで開発・1日に何度もデプロイする
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <strong>→ Proプランを検討してください。</strong><br><br>
+            月500ビルドは、複数人のチームで毎日コミットすると1〜2週間で消化する可能性があります。
+            Proは5,000回/月、コンカレントビルド5なので快適に作業できます。$20/月は十分元が取れます。
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header">
+          Pages FunctionsでAPIを公開したい
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <strong>→ まず無料プランで試しましょう。</strong><br><br>
+            無料でも1日100,000リクエストまで対応できます。
+            これは月に換算すると約300万リクエストです。小〜中規模のAPIなら問題ありません。
+            超過しそうになったらWorkers Paid（$5/月）またはPro（$20/月）に切り替えましょう。
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header">
+          ステージング環境へのアクセス制限が必要
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <strong>→ ProプランとCloudflare Access（Zero Trust Free）の組み合わせ。</strong><br><br>
+            Cloudflare Accessは50ユーザーまで無料です。
+            それ以上は$3/ユーザー/月の追加費用が発生しますが、
+            社内ステージング環境であれば十分にコスト効率が良いです。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box blue reveal" style="margin-top:1.5rem;">
+      <div class="info-box-title">💡 まず無料で始めることをおすすめします</div>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+        Cloudflare Pagesはプランのアップグレードが即座に反映され、
+        ダウングレードもいつでも可能です。まず無料で試して、
+        必要になったときにアップグレードするのが最善の方法です。
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <section style="padding: 2.5rem 0 0; text-align:center;" class="reveal">
+      <div class="section-tag">Cloudflare Pages の実績</div>
+      <div style="display:flex; justify-content:center; gap:3rem; flex-wrap:wrap; margin-top:1.5rem;">
+        <div class="stat">
+          <div class="stat-value" style="-webkit-text-fill-color:var(--primary);">
+            <span data-count="300">0</span>+
+          </div>
+          <div class="stat-label" style="color:var(--text-light);">エッジロケーション</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" style="-webkit-text-fill-color:var(--primary);">
+            <span data-count="10">0</span>億+
+          </div>
+          <div class="stat-label" style="color:var(--text-light);">毎日のリクエスト処理数</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" style="-webkit-text-fill-color:var(--primary);">
+            <span data-count="99.9">0</span>%
+          </div>
+          <div class="stat-label" style="color:var(--text-light);">稼働率SLA</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="page-nav">
+      <a href="features.html" class="page-nav-item">
+        <div class="page-nav-label">← 前へ</div>
+        <div class="page-nav-title">✨ 機能・特徴</div>
+      </a>
+      <a href="../index.html" class="page-nav-item next">
+        <div class="page-nav-label">↩ トップへ</div>
+        <div class="page-nav-title">🏠 ホームへ戻る</div>
+      </a>
+    </div>
+  </main>
+</div>
+
+<div class="cta-section reveal">
+  <h2>まずは無料プランで始めよう</h2>
+  <p>クレジットカード不要。今すぐCloudflare Pagesを体験できます</p>
+  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+    <a href="getting-started.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);">
+      🚀 セットアップガイドへ
+    </a>
+    <a href="../index.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);">
+      🏠 ガイドのトップへ
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo" style="color:#fff;"><div class="logo-icon">☁️</div>CF Pages Guide</a>
+        <p>Cloudflare Pagesの使い方を日本語でわかりやすく解説する非公式ガイドサイトです。</p>
+      </div>
+      <div class="footer-col">
+        <h4>ガイド</h4>
+        <ul class="footer-links">
+          <li><a href="what-is.html">Pagesとは</a></li>
+          <li><a href="getting-started.html">はじめ方</a></li>
+          <li><a href="deployment.html">デプロイ</a></li>
+          <li><a href="features.html">機能</a></li>
+          <li><a href="pricing.html">料金</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>公式リソース</h4>
+        <ul class="footer-links">
+          <li><a href="https://pages.cloudflare.com" target="_blank" rel="noopener">Cloudflare Pages</a></li>
+          <li><a href="https://developers.cloudflare.com/pages/" target="_blank" rel="noopener">開発者ドキュメント</a></li>
+          <li><a href="https://www.cloudflare.com/plans/" target="_blank" rel="noopener">Cloudflare公式料金</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CF Pages Guide — 非公式サイト</span>
+      <span class="footer-note">このサイトはCloudflareの公式サイトではありません。料金は変更される場合があります。</span>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" title="トップへ戻る">↑</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

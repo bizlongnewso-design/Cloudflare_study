@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>デプロイの仕組み — CF Pages Guide</title>
+  <meta name="description" content="Cloudflare Pagesのビルドパイプライン・CDN配信・プレビューデプロイの仕組みを詳しく解説">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="../index.html" class="logo"><div class="logo-icon">☁️</div>CF Pages Guide</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="what-is.html">概要</a></li>
+      <li><a href="getting-started.html">はじめ方</a></li>
+      <li><a href="deployment.html">デプロイ</a></li>
+      <li><a href="features.html">機能</a></li>
+      <li><a href="pricing.html">料金</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" title="テーマ切替">☀️</button>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-nav">
+  <a href="../index.html">🏠 ホーム</a>
+  <a href="what-is.html">📖 Cloudflare Pagesとは</a>
+  <a href="getting-started.html">🚀 はじめ方・セットアップ</a>
+  <a href="deployment.html">⚙️ デプロイの仕組み</a>
+  <a href="features.html">✨ 機能・特徴</a>
+  <a href="pricing.html">💰 料金プラン</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-hero-icon">⚙️</span>
+    <h1>デプロイの仕組み</h1>
+    <p>Gitのpushからエッジへの配信まで、Cloudflare Pagesの裏側を詳しく解説します</p>
+  </div>
+</div>
+
+<div class="content-layout">
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <div class="sidebar-title">このページの内容</div>
+      <ul class="sidebar-links">
+        <li><a href="#pipeline">ビルドパイプライン</a></li>
+        <li><a href="#preview">プレビューデプロイ</a></li>
+        <li><a href="#cdn">CDN配信の仕組み</a></li>
+        <li><a href="#rollback">ロールバック</a></li>
+        <li><a href="#headers">カスタムヘッダー・リダイレクト</a></li>
+        <li><a href="#build-cache">ビルドキャッシュ</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="breadcrumb">
+      <a href="../index.html">ホーム</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">デプロイの仕組み</span>
+    </div>
+
+    <h2 id="pipeline" class="reveal">ビルドパイプライン全体像</h2>
+    <p class="reveal">
+      Git pushがトリガーとなり、ビルド・テスト・エッジ配信までが全自動で行われます。
+      この一連のフローを詳しく追っていきましょう。
+    </p>
+
+    <div class="feature-visual reveal" style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; margin-bottom:2rem;">
+      <div style="display:flex; flex-direction:column; gap:0;">
+        <div style="display:flex; align-items:center; gap:1rem; padding:1rem; background:rgba(246,130,31,0.08); border-radius:10px; border:1px solid rgba(246,130,31,0.2);">
+          <div style="font-size:1.5rem;">🐙</div>
+          <div>
+            <div style="font-weight:700;">1. Git push</div>
+            <div style="font-size:0.8rem; color:var(--text-light);">GitHub / GitLab にコードをpush</div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:center; padding:0.4rem; color:var(--primary); font-size:1.2rem;">↓</div>
+        <div style="display:flex; align-items:center; gap:1rem; padding:1rem; background:rgba(26,107,219,0.08); border-radius:10px; border:1px solid rgba(26,107,219,0.2);">
+          <div style="font-size:1.5rem;">🔔</div>
+          <div>
+            <div style="font-weight:700;">2. Webhook受信</div>
+            <div style="font-size:0.8rem; color:var(--text-light);">CloudflareがGitHub webhookを受け取る</div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:center; padding:0.4rem; color:var(--primary); font-size:1.2rem;">↓</div>
+        <div style="display:flex; align-items:center; gap:1rem; padding:1rem; background:rgba(246,130,31,0.08); border-radius:10px; border:1px solid rgba(246,130,31,0.2);">
+          <div style="font-size:1.5rem;">📦</div>
+          <div>
+            <div style="font-weight:700;">3. ビルドコンテナ起動</div>
+            <div style="font-size:0.8rem; color:var(--text-light);">分離されたコンテナ環境でリポジトリをクローン・依存関係をインストール</div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:center; padding:0.4rem; color:var(--primary); font-size:1.2rem;">↓</div>
+        <div style="display:flex; align-items:center; gap:1rem; padding:1rem; background:rgba(34,197,94,0.08); border-radius:10px; border:1px solid rgba(34,197,94,0.2);">
+          <div style="font-size:1.5rem;">🔨</div>
+          <div>
+            <div style="font-weight:700;">4. ビルド実行</div>
+            <div style="font-size:0.8rem; color:var(--text-light);"><code>npm run build</code> など設定されたコマンドを実行</div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:center; padding:0.4rem; color:var(--primary); font-size:1.2rem;">↓</div>
+        <div style="display:flex; align-items:center; gap:1rem; padding:1rem; background:rgba(246,130,31,0.08); border-radius:10px; border:1px solid rgba(246,130,31,0.2);">
+          <div style="font-size:1.5rem;">🌐</div>
+          <div>
+            <div style="font-weight:700;">5. エッジ配信</div>
+            <div style="font-size:0.8rem; color:var(--text-light);">成果物が300+エッジロケーションにレプリケート</div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:center; padding:0.4rem; color:var(--primary); font-size:1.2rem;">↓</div>
+        <div style="display:flex; align-items:center; gap:1rem; padding:1rem; background:rgba(34,197,94,0.08); border-radius:10px; border:1px solid rgba(34,197,94,0.2);">
+          <div style="font-size:1.5rem;">✅</div>
+          <div>
+            <div style="font-weight:700;">6. デプロイ完了通知</div>
+            <div style="font-size:0.8rem; color:var(--text-light);">GitHubのコミットステータスが更新。プレビューURLが発行。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>ビルド環境の詳細</h3>
+    <p class="reveal">ビルドは以下の環境で実行されます。</p>
+
+    <div class="code-block reveal">
+      <div class="code-header">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+        <span class="code-filename">ビルド環境スペック</span>
+      </div>
+      <div class="code-body">
+<pre><span class="c-prop">OS</span>:          Ubuntu Linux (x86_64)
+<span class="c-prop">Node.js</span>:     v18.x（デフォルト）/ v16.x, v20.x 選択可
+<span class="c-prop">npm</span>:         最新安定版
+<span class="c-prop">Python</span>:      3.x
+<span class="c-prop">Go</span>:          1.x
+<span class="c-prop">Ruby</span>:        最新安定版
+<span class="c-prop">メモリ上限</span>:   6GB
+<span class="c-prop">CPU</span>:         最大20分間のビルド時間制限
+<span class="c-prop">ストレージ</span>:   25GB（/tmp）
+
+<span class="c-comment"># NODE_VERSIONで切り替え可能</span>
+NODE_VERSION=20.0.0</pre>
+      </div>
+    </div>
+
+    <h2 id="preview" class="reveal">プレビューデプロイ</h2>
+    <p class="reveal">
+      Cloudflare Pagesの強力な機能の一つが<strong>プレビューデプロイ</strong>です。
+      mainブランチ以外へのpushや、Pull Requestが作成されると自動的にプレビューURLが生成されます。
+    </p>
+
+    <div class="overview-grid stagger">
+      <div class="overview-card">
+        <div class="card-icon">🔀</div>
+        <div class="card-title">ブランチプレビュー</div>
+        <p class="card-desc">
+          <code>[branch].[project].pages.dev</code> の形式でアクセス可能。
+          featureブランチごとに独立した環境が自動生成。
+        </p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">👁️</div>
+        <div class="card-title">PRプレビュー</div>
+        <p class="card-desc">
+          Pull Requestを作成すると、そのコミット専用のプレビューURLがGitHubのPRコメントに自動投稿される。
+        </p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🔒</div>
+        <div class="card-title">アクセス制限</div>
+        <p class="card-desc">
+          Cloudflare Accessと連携してプレビューURLをパスワード保護したり、特定メールドメインのみに制限できる。
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block reveal" style="margin-top:1.5rem;">
+      <div class="code-header">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+        <span class="code-filename">プレビューURL形式</span>
+      </div>
+      <div class="code-body">
+<pre><span class="c-comment"># 本番デプロイ（mainブランチ）</span>
+<span class="c-string">https://my-project.pages.dev</span>
+
+<span class="c-comment"># ブランチプレビュー</span>
+<span class="c-string">https://feature-login.my-project.pages.dev</span>
+
+<span class="c-comment"># コミット専用プレビュー（不変URL）</span>
+<span class="c-string">https://abc1234.my-project.pages.dev</span>
+
+<span class="c-comment"># カスタムドメイン（本番）</span>
+<span class="c-string">https://www.example.com</span></pre>
+      </div>
+    </div>
+
+    <h2 id="cdn" class="reveal">CDN配信の仕組み</h2>
+    <p class="reveal">
+      デプロイされたファイルはCloudflareのグローバルネットワーク全体に分散されます。
+      ユーザーがアクセスすると、Cloudflareのエニーキャストルーティングが最寄りのエッジノードに自動的に転送します。
+    </p>
+
+    <div class="tabs reveal">
+      <div class="tab-list">
+        <button class="tab-btn active">キャッシュ戦略</button>
+        <button class="tab-btn">HTTP/3対応</button>
+        <button class="tab-btn">圧縮</button>
+      </div>
+      <div class="tab-panel active">
+        <h3>スマートキャッシング</h3>
+        <p>Cloudflare PagesはファイルタイプとURLパターンに応じて自動的に最適なキャッシュTTLを設定します。</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename">デフォルトキャッシュ動作</span>
+          </div>
+          <div class="code-body">
+<pre><span class="c-comment"># ハッシュ付きアセット（長期キャッシュ）</span>
+<span class="c-prop">/assets/main.a3f2c1d.js</span>  → Cache-Control: max-age=31536000
+
+<span class="c-comment"># HTMLファイル（短期キャッシュ）</span>
+<span class="c-prop">/index.html</span>             → Cache-Control: max-age=0, must-revalidate
+
+<span class="c-comment"># カスタムヘッダーで上書き可能 (_headers ファイル)</span>
+/api/*
+  Cache-Control: no-cache</pre>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel">
+        <h3>HTTP/3 (QUIC) の自動適用</h3>
+        <p>Cloudflare PagesはすべてのサイトにHTTP/3（QUICプロトコル）を自動的に有効化します。</p>
+        <ul>
+          <li>UDP上で動作するQUICにより、パケットロス時の遅延を削減</li>
+          <li>0-RTT接続再開で繰り返しアクセス時の待ち時間をゼロに</li>
+          <li>TLS 1.3を標準採用し、ハンドシェイクを高速化</li>
+          <li>対応ブラウザではHTTP/3を自動的に使用、非対応はHTTP/2にフォールバック</li>
+        </ul>
+      </div>
+      <div class="tab-panel">
+        <h3>自動圧縮</h3>
+        <p>テキストベースのファイル（HTML、CSS、JS、SVGなど）は自動的に圧縮されて配信されます。</p>
+        <div class="overview-grid" style="margin-top:1rem;">
+          <div class="overview-card" style="padding:1.2rem;">
+            <div class="card-title" style="font-size:1rem;">Brotli圧縮</div>
+            <p class="card-desc">Gzipより最大20%小さく圧縮可能。対応ブラウザでは自動的にBrotliで配信。</p>
+          </div>
+          <div class="overview-card" style="padding:1.2rem;">
+            <div class="card-title" style="font-size:1rem;">Gzip圧縮</div>
+            <p class="card-desc">Brotli非対応のブラウザにはGzipで配信。どちらも設定不要で自動適用。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="rollback" class="reveal">ロールバック</h2>
+    <p class="reveal">
+      デプロイ後に問題が発生した場合、以前のデプロイに即座にロールバックできます。
+      ダッシュボードから数クリックで完了し、ビルドの再実行は不要です。
+    </p>
+
+    <div class="info-box green reveal">
+      <div class="info-box-title">✅ ゼロダウンタイムロールバック</div>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+        Cloudflare Pagesのロールバックはアトミックに行われます。
+        すべてのエッジノードが同時に切り替わるため、一部のユーザーが古いバージョン・
+        新しいバージョンを混在して見ることはありません。
+        サービス停止なしに瞬時に切り替えられます。
+      </p>
+    </div>
+
+    <h2 id="headers" class="reveal">カスタムヘッダー・リダイレクト</h2>
+    <p class="reveal">
+      リポジトリのルートに特殊なファイルを置くことで、HTTPヘッダーやリダイレクトを制御できます。
+    </p>
+
+    <div class="tabs reveal">
+      <div class="tab-list">
+        <button class="tab-btn active">_headersファイル</button>
+        <button class="tab-btn">_redirectsファイル</button>
+      </div>
+      <div class="tab-panel active">
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename">public/_headers</span>
+          </div>
+          <div class="code-body">
+<pre><span class="c-comment"># すべてのページにセキュリティヘッダーを追加</span>
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=()
+
+<span class="c-comment"># APIエンドポイントにCORSヘッダーを追加</span>
+/api/*
+  Access-Control-Allow-Origin: https://example.com
+  Access-Control-Allow-Methods: GET, POST, OPTIONS
+
+<span class="c-comment"># 特定ファイルに長期キャッシュを設定</span>
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable</pre>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel">
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename">public/_redirects</span>
+          </div>
+          <div class="code-body">
+<pre><span class="c-comment"># 旧URLを新URLにリダイレクト（301永続）</span>
+/old-page    /new-page    301
+
+<span class="c-comment"># SPAのための404フォールバック（重要！）</span>
+/*           /index.html  200
+
+<span class="c-comment"># 特定ドメインへのリダイレクト</span>
+https://old.example.com/*   https://new.example.com/:splat   301
+
+<span class="c-comment"># 国別リダイレクト（Country変数利用）</span>
+/             /ja/          302  Country=JP
+/             /en/          302</pre>
+          </div>
+        </div>
+        <div class="info-box" style="margin-top:1rem;">
+          <div class="info-box-title">💡 SPAのルーティング</div>
+          <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+            React RouterやVue Routerを使うSPAでは、<code>/* /index.html 200</code> のルールが必須です。
+            これがないと、直接URLを入力した際に404エラーになります。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="build-cache" class="reveal">ビルドキャッシュ</h2>
+    <p class="reveal">
+      Cloudflare Pagesはビルド間でnode_modulesや依存関係をキャッシュし、
+      2回目以降のビルドを大幅に高速化します。
+    </p>
+
+    <div class="overview-grid stagger">
+      <div class="overview-card">
+        <div class="card-icon">📦</div>
+        <div class="card-title">node_modulesキャッシュ</div>
+        <p class="card-desc">package.jsonのハッシュが変わらない場合、npm installをスキップしてキャッシュを利用。ビルド時間を大幅短縮。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🏗️</div>
+        <div class="card-title">フレームワークキャッシュ</div>
+        <p class="card-desc">NextやNuxtのビルドキャッシュも保持。増分ビルドに対応したフレームワークはさらに高速化。</p>
+      </div>
+    </div>
+
+    <div class="page-nav">
+      <a href="getting-started.html" class="page-nav-item">
+        <div class="page-nav-label">← 前へ</div>
+        <div class="page-nav-title">🚀 はじめ方・セットアップ</div>
+      </a>
+      <a href="features.html" class="page-nav-item next">
+        <div class="page-nav-label">次へ →</div>
+        <div class="page-nav-title">✨ 機能・特徴</div>
+      </a>
+    </div>
+  </main>
+</div>
+
+<div class="cta-section reveal">
+  <h2>豊富な機能を使いこなそう</h2>
+  <p>次のページではFunctions・Analytics・カスタムドメインなどの機能を詳しく解説します</p>
+  <a href="features.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);">✨ 機能・特徴を見る</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo" style="color:#fff;"><div class="logo-icon">☁️</div>CF Pages Guide</a>
+        <p>Cloudflare Pagesの使い方を日本語でわかりやすく解説する非公式ガイドサイトです。</p>
+      </div>
+      <div class="footer-col">
+        <h4>ガイド</h4>
+        <ul class="footer-links">
+          <li><a href="what-is.html">Pagesとは</a></li>
+          <li><a href="getting-started.html">はじめ方</a></li>
+          <li><a href="deployment.html">デプロイ</a></li>
+          <li><a href="features.html">機能</a></li>
+          <li><a href="pricing.html">料金</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CF Pages Guide — 非公式サイト</span>
+      <span class="footer-note">このサイトはCloudflareの公式サイトではありません</span>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" title="トップへ戻る">↑</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

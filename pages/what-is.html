@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloudflare Pagesとは — CF Pages Guide</title>
+  <meta name="description" content="Cloudflare Pagesの概要・歴史・他サービスとの比較を日本語で解説">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">☁️</div>
+      CF Pages Guide
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="what-is.html">概要</a></li>
+      <li><a href="getting-started.html">はじめ方</a></li>
+      <li><a href="deployment.html">デプロイ</a></li>
+      <li><a href="features.html">機能</a></li>
+      <li><a href="pricing.html">料金</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" title="テーマ切替">☀️</button>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-nav">
+  <a href="../index.html">🏠 ホーム</a>
+  <a href="what-is.html">📖 Cloudflare Pagesとは</a>
+  <a href="getting-started.html">🚀 はじめ方・セットアップ</a>
+  <a href="deployment.html">⚙️ デプロイの仕組み</a>
+  <a href="features.html">✨ 機能・特徴</a>
+  <a href="pricing.html">💰 料金プラン</a>
+</div>
+
+<!-- Hero -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-hero-icon">📖</span>
+    <h1>Cloudflare Pagesとは</h1>
+    <p>Cloudflareが提供する静的サイトホスティングプラットフォームの全体像を理解しよう</p>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="content-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <div class="sidebar-title">このページの内容</div>
+      <ul class="sidebar-links">
+        <li><a href="#overview">サービス概要</a></li>
+        <li><a href="#history">誕生の背景</a></li>
+        <li><a href="#architecture">アーキテクチャ</a></li>
+        <li><a href="#compare">他サービスとの比較</a></li>
+        <li><a href="#usecase">ユースケース</a></li>
+        <li><a href="#faq">よくある質問</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <div class="breadcrumb">
+      <a href="../index.html">ホーム</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Cloudflare Pagesとは</span>
+    </div>
+
+    <!-- Overview -->
+    <h2 id="overview" class="reveal">サービス概要</h2>
+    <p class="reveal">
+      <strong>Cloudflare Pages</strong>は、Cloudflare社が提供する静的サイト・フルスタックWebアプリケーション向けの
+      ホスティングプラットフォームです。2021年4月に正式リリースされ、現在では世界中の開発者・企業に
+      利用されています。
+    </p>
+    <p class="reveal">
+      特徴は「GitリポジトリとCloudflareを繋ぐだけ」というシンプルさにあります。
+      GitHubやGitLabにコードをpushすると、Cloudflareが自動的にビルドを実行し、
+      世界300箇所以上のエッジロケーションに配信します。
+    </p>
+
+    <div class="info-box reveal">
+      <div class="info-box-title">💡 静的サイト vs 動的サイト</div>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+        静的サイトとは、HTMLやCSS、JavaScriptなどのファイルをそのまま配信するサイトです。
+        React・Vue・Nuxtなどのフレームワークを使ったSPAや、Astro・Hugo・Jekyll等の
+        静的サイトジェネレーター(SSG)で生成したサイトが対象です。
+        Pages Functionsを使えば動的な処理（API・認証等）も追加できます。
+      </p>
+    </div>
+
+    <div class="overview-grid stagger" style="margin-top:1.5rem; margin-bottom:2rem;">
+      <div class="overview-card">
+        <div class="card-icon">🌐</div>
+        <div class="card-title">エッジ配信</div>
+        <p class="card-desc">世界300+ロケーションから最寄りのエッジノードで自動配信</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🔄</div>
+        <div class="card-title">CI/CD統合</div>
+        <p class="card-desc">Git pushで自動ビルド&デプロイ。PRごとにプレビューURL生成</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Functions内蔵</div>
+        <p class="card-desc">Pages Functionsでサーバーレス処理もエッジで実行可能</p>
+      </div>
+    </div>
+
+    <!-- History -->
+    <h2 id="history" class="reveal">誕生の背景</h2>
+    <p class="reveal">
+      Cloudflare Pagesが登場する以前、静的サイトホスティングといえばNetlify・Vercel・GitHub Pagesが
+      主流でした。しかしCloudflareはすでに世界最大規模のCDNインフラを持っており、
+      そのネットワークを活かしたホスティングサービスは自然な進化でした。
+    </p>
+
+    <div class="steps reveal" style="max-width:100%;">
+      <div class="step">
+        <div class="step-num" style="font-size:0.7rem; font-weight:700;">2021</div>
+        <div class="step-content">
+          <h3>Cloudflare Pages ベータ公開</h3>
+          <p>2021年3月にベータ版を公開。GitHub連携、自動ビルド、無制限帯域という特徴でたちまち注目を集める。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="font-size:0.7rem; font-weight:700;">GA</div>
+        <div class="step-content">
+          <h3>一般提供(GA)開始・Pages Functions発表</h3>
+          <p>正式リリースと同時にサーバーレス関数「Pages Functions」を発表。静的サイト以上の可能性が広がる。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="font-size:0.7rem; font-weight:700;">2022</div>
+        <div class="step-content">
+          <h3>GitLab連携・Analytics追加</h3>
+          <p>GitHubに加えGitLabもサポート。Web Analyticsが統合され、プライバシー配慮型の分析が可能に。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="font-size:0.7rem; font-weight:700;">2023</div>
+        <div class="step-content">
+          <h3>Workers・KV・D1との深い統合</h3>
+          <p>Pages FunctionsからCloudflare Workers KV、D1データベース、R2オブジェクトストレージを透過的に利用可能に。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture -->
+    <h2 id="architecture" class="reveal">アーキテクチャ</h2>
+    <p class="reveal">
+      Cloudflare Pagesは大きく3つのレイヤーで構成されています。
+    </p>
+
+    <div class="tabs reveal">
+      <div class="tab-list">
+        <button class="tab-btn active">ビルドレイヤー</button>
+        <button class="tab-btn">配信レイヤー</button>
+        <button class="tab-btn">実行レイヤー</button>
+      </div>
+      <div class="tab-panel active">
+        <div class="code-block" style="margin-bottom:1rem;">
+          <div class="code-header">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename">ビルドパイプライン</span>
+          </div>
+          <div class="code-body">
+<pre><span class="c-comment"># Gitへのpushをトリガーにビルドが自動実行</span>
+git push origin main
+   <span class="c-orange">↓</span>
+<span class="c-keyword">1. Webhookを受信</span>  <span class="c-comment"># GitHub/GitLabからCloudflareへ通知</span>
+<span class="c-keyword">2. ソースコードをクローン</span>
+<span class="c-keyword">3. フレームワークを自動検出</span>  <span class="c-comment"># React, Vue, Nuxt, Astro...</span>
+<span class="c-keyword">4. npm install &amp;&amp; npm run build</span>
+<span class="c-keyword">5. 成果物をエッジに配信</span>
+   <span class="c-orange">↓</span>
+<span class="c-string">https://[project].pages.dev</span>  <span class="c-comment"># デプロイ完了！</span></pre>
+          </div>
+        </div>
+        <p>ビルドはCloudflareが管理するコンテナ環境で実行されます。Node.js、Python、Go等のランタイムに対応しており、環境変数を安全に渡すことも可能です。</p>
+      </div>
+      <div class="tab-panel">
+        <p>ビルド済みの静的ファイルはCloudflareのグローバルネットワーク全体に複製されます。ユーザーがアクセスすると、地理的に最も近いエッジノードから応答が返ります。</p>
+        <ul>
+          <li>世界300以上のエッジロケーションに自動レプリケーション</li>
+          <li>HTTP/3 (QUIC)・Brotli圧縮・Early Hintsに対応</li>
+          <li>スマートキャッシング戦略でキャッシュヒット率を最大化</li>
+          <li>カスタムドメインには自動的にSSL/TLS証明書を発行</li>
+        </ul>
+      </div>
+      <div class="tab-panel">
+        <p>Pages Functionsにより、静的サイトにサーバーサイド処理を追加できます。</p>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename">functions/api/hello.js</span>
+          </div>
+          <div class="code-body">
+<pre><span class="c-keyword">export</span> <span class="c-keyword">async function</span> <span class="c-prop">onRequest</span>(context) {
+  <span class="c-keyword">const</span> { request, env } = context;
+  <span class="c-keyword">return new</span> Response(
+    JSON.stringify({ <span class="c-prop">message</span>: <span class="c-string">"Hello from the Edge!"</span> }),
+    { headers: { <span class="c-string">'Content-Type'</span>: <span class="c-string">'application/json'</span> } }
+  );
+}</pre>
+          </div>
+        </div>
+        <p style="margin-top:0.8rem;">このファイルを<code>functions/api/hello.js</code>に置くだけで、<code>/api/hello</code>エンドポイントがエッジで動作します。</p>
+      </div>
+    </div>
+
+    <!-- Compare -->
+    <h2 id="compare" class="reveal">他サービスとの比較</h2>
+    <p class="reveal">主要な静的サイトホスティングサービスとの機能・制限を比較します。</p>
+
+    <div class="reveal" style="overflow-x:auto; margin: 1.5rem 0;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>比較項目</th>
+            <th>☁️ CF Pages</th>
+            <th>▲ Vercel</th>
+            <th>◆ Netlify</th>
+            <th>🐙 GitHub Pages</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>無料プラン帯域制限</td>
+            <td><strong class="check">無制限</strong></td>
+            <td>100GB/月</td>
+            <td>100GB/月</td>
+            <td>100GB/月</td>
+          </tr>
+          <tr>
+            <td>無料プランビルド</td>
+            <td>500回/月</td>
+            <td>100回/日</td>
+            <td>300分/月</td>
+            <td>10回/時</td>
+          </tr>
+          <tr>
+            <td>カスタムドメイン(無料)</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>サーバーレス関数(無料)</td>
+            <td><span class="check">✓</span> Functions</td>
+            <td>△ 制限あり</td>
+            <td>△ 制限あり</td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>PRプレビュー</td>
+            <td><span class="check">✓</span> 無制限</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>DDoS保護</td>
+            <td><span class="check">✓</span> 標準</td>
+            <td>△ 別途</td>
+            <td>△ 別途</td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>グローバルCDN拠点数</td>
+            <td><strong>300以上</strong></td>
+            <td>~70</td>
+            <td>~100</td>
+            <td>~30</td>
+          </tr>
+          <tr>
+            <td>GitLab対応</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box green reveal">
+      <div class="info-box-title">✅ Cloudflare Pagesが特に優れている点</div>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+        帯域制限が無制限である点は他サービスにはない大きな強みです。
+        高トラフィックなサイトでも追加料金を気にせず運用できます。
+        また300以上のエッジロケーション数はVercel・Netlifyを大幅に上回ります。
+      </p>
+    </div>
+
+    <!-- Usecase -->
+    <h2 id="usecase" class="reveal">ユースケース</h2>
+    <p class="reveal">Cloudflare Pagesはどのようなプロジェクトに最適でしょうか？</p>
+
+    <div class="overview-grid stagger">
+      <div class="overview-card">
+        <div class="card-icon">📝</div>
+        <div class="card-title">ブログ・ドキュメントサイト</div>
+        <p class="card-desc">Astro・Hugo・Jekyll等のSSGと組み合わせて高速なブログやドキュメントサイトを構築。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🛒</div>
+        <div class="card-title">ECサイト</div>
+        <p class="card-desc">Next.js・NuxtのSSG/ISRモードで商品ページを静的生成し、超高速なショッピング体験を提供。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">💼</div>
+        <div class="card-title">企業サイト・LP</div>
+        <p class="card-desc">マーケティングサイトやランディングページをスピーディーに公開。DDoS保護も標準装備。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">⚛️</div>
+        <div class="card-title">SPAアプリケーション</div>
+        <p class="card-desc">React・Vueで構築したSPAをデプロイ。Pages Functionsでバックエンドも同一リポジトリで管理。</p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <h2 id="faq" class="reveal">よくある質問</h2>
+    <div class="accordion reveal">
+      <div class="accordion-item">
+        <button class="accordion-header">
+          WordPressは使えますか？
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            Cloudflare PagesはPHPのような動的なサーバーサイド処理には対応していません。
+            WordPressをそのまま動かすことはできませんが、
+            WordPressをヘッドレスCMSとして使い、フロントエンドのみをPagesにデプロイするという
+            構成（Headless WordPress）は多く採用されています。
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header">
+          データベースは使えますか？
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            Pages Functions（エッジ上のサーバーレス関数）から
+            Cloudflare D1（SQLiteベースのデータベース）やCloudflare KV（Key-Valueストア）を
+            利用できます。外部のSupabase・PlanetScaleなどのデータベースへの接続も可能です。
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header">
+          無料プランでも本番環境に使えますか？
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            はい、無料プランでも帯域無制限でカスタムドメイン対応のため、
+            多くのプロジェクトで本番環境として利用可能です。
+            高度な認証アクセス制限（Cloudflare Access）や追加ビルド枠が必要な場合にProプランを検討しましょう。
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header">
+          サーバーサイドレンダリング(SSR)は対応していますか？
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            Pages FunctionsはCloudflare Workersをベースにしているため、
+            Next.js・Nuxt・SvelteKitなどフレームワークのSSRモードを
+            エッジで実行できます（Edge Runtime対応が必要）。
+            ただしNode.js専用のAPIは一部使用できないため、フレームワークのドキュメントを確認してください。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Nav -->
+    <div class="page-nav">
+      <a href="../index.html" class="page-nav-item">
+        <div class="page-nav-label">← 前へ</div>
+        <div class="page-nav-title">🏠 ホームへ戻る</div>
+      </a>
+      <a href="getting-started.html" class="page-nav-item next">
+        <div class="page-nav-label">次へ →</div>
+        <div class="page-nav-title">🚀 はじめ方・セットアップ</div>
+      </a>
+    </div>
+  </main>
+</div>
+
+<!-- CTA -->
+<div class="cta-section reveal">
+  <h2>準備ができたら始めよう</h2>
+  <p>次のページでは実際のセットアップ手順を詳しく解説します</p>
+  <a href="getting-started.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);">
+    🚀 はじめ方を見る
+  </a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo" style="color:#fff;">
+          <div class="logo-icon">☁️</div>CF Pages Guide
+        </a>
+        <p>Cloudflare Pagesの使い方を日本語でわかりやすく解説する非公式ガイドサイトです。</p>
+      </div>
+      <div class="footer-col">
+        <h4>ガイド</h4>
+        <ul class="footer-links">
+          <li><a href="what-is.html">Pagesとは</a></li>
+          <li><a href="getting-started.html">はじめ方</a></li>
+          <li><a href="deployment.html">デプロイ</a></li>
+          <li><a href="features.html">機能</a></li>
+          <li><a href="pricing.html">料金</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>公式リソース</h4>
+        <ul class="footer-links">
+          <li><a href="https://pages.cloudflare.com" target="_blank" rel="noopener">Cloudflare Pages</a></li>
+          <li><a href="https://developers.cloudflare.com/pages/" target="_blank" rel="noopener">開発者ドキュメント</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CF Pages Guide — 非公式サイト</span>
+      <span class="footer-note">このサイトはCloudflareの公式サイトではありません</span>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" title="トップへ戻る">↑</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>機能・特徴 — CF Pages Guide</title>
+  <meta name="description" content="Cloudflare PagesのFunctions・Analytics・KV・D1・R2など豊富な機能を詳しく解説">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="../index.html" class="logo"><div class="logo-icon">☁️</div>CF Pages Guide</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="what-is.html">概要</a></li>
+      <li><a href="getting-started.html">はじめ方</a></li>
+      <li><a href="deployment.html">デプロイ</a></li>
+      <li><a href="features.html">機能</a></li>
+      <li><a href="pricing.html">料金</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" title="テーマ切替">☀️</button>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-nav">
+  <a href="../index.html">🏠 ホーム</a>
+  <a href="what-is.html">📖 Cloudflare Pagesとは</a>
+  <a href="getting-started.html">🚀 はじめ方・セットアップ</a>
+  <a href="deployment.html">⚙️ デプロイの仕組み</a>
+  <a href="features.html">✨ 機能・特徴</a>
+  <a href="pricing.html">💰 料金プラン</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-hero-icon">✨</span>
+    <h1>機能・特徴</h1>
+    <p>Pages Functionsからセキュリティまで、Cloudflare Pagesの豊富な機能を網羅的に解説します</p>
+  </div>
+</div>
+
+<div class="content-layout">
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <div class="sidebar-title">このページの内容</div>
+      <ul class="sidebar-links">
+        <li><a href="#functions">Pages Functions</a></li>
+        <li><a href="#bindings">Workersバインディング</a></li>
+        <li><a href="#analytics">Web Analytics</a></li>
+        <li><a href="#security">セキュリティ機能</a></li>
+        <li><a href="#access">Cloudflare Access</a></li>
+        <li><a href="#image">画像最適化</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="breadcrumb">
+      <a href="../index.html">ホーム</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">機能・特徴</span>
+    </div>
+
+    <h2 id="functions" class="reveal">Pages Functions</h2>
+    <p class="reveal">
+      <strong>Pages Functions</strong>はCloudflare Workersをベースにしたサーバーサイド処理機能です。
+      <code>functions/</code>ディレクトリにJavaScriptファイルを置くだけで、
+      対応するAPIエンドポイントがエッジで動作します。
+    </p>
+
+    <div class="overview-grid stagger">
+      <div class="overview-card">
+        <div class="card-icon">🗺️</div>
+        <div class="card-title">ファイルベースルーティング</div>
+        <p class="card-desc"><code>functions/api/users.js</code>が<code>/api/users</code>に対応。直感的なディレクトリ構造でAPIを構築。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">エッジで実行</div>
+        <p class="card-desc">コールドスタートなし。ユーザーに最も近いエッジノードで即座に実行される。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🔗</div>
+        <div class="card-title">ミドルウェア対応</div>
+        <p class="card-desc"><code>_middleware.js</code>でリクエストを横断処理。認証チェック・ロギングなどを一元管理。</p>
+      </div>
+    </div>
+
+    <div class="code-block reveal" style="margin-top:1.5rem;">
+      <div class="code-header">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+        <span class="code-filename">functions/api/users/[id].js — 動的ルート</span>
+      </div>
+      <div class="code-body">
+<pre><span class="c-comment">// /api/users/123 にアクセスすると id=123 が取得できる</span>
+<span class="c-keyword">export async function</span> <span class="c-prop">onRequestGet</span>({ params, env }) {
+  <span class="c-keyword">const</span> { id } = params;
+
+  <span class="c-comment">// Cloudflare D1データベースから取得</span>
+  <span class="c-keyword">const</span> user = <span class="c-keyword">await</span> env.DB.prepare(
+    <span class="c-string">'SELECT * FROM users WHERE id = ?'</span>
+  ).bind(id).first();
+
+  <span class="c-keyword">if</span> (!user) {
+    <span class="c-keyword">return new</span> Response(<span class="c-string">'Not Found'</span>, { status: <span class="c-value">404</span> });
+  }
+
+  <span class="c-keyword">return</span> Response.json(user);
+}
+
+<span class="c-keyword">export async function</span> <span class="c-prop">onRequestPost</span>({ request, env }) {
+  <span class="c-keyword">const</span> body = <span class="c-keyword">await</span> request.json();
+  <span class="c-comment">// ユーザー作成処理...</span>
+  <span class="c-keyword">return</span> Response.json({ success: <span class="c-keyword">true</span> }, { status: <span class="c-value">201</span> });
+}</pre>
+      </div>
+    </div>
+
+    <div class="code-block reveal" style="margin-top:1rem;">
+      <div class="code-header">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+        <span class="code-filename">functions/_middleware.js — 認証ミドルウェア</span>
+      </div>
+      <div class="code-body">
+<pre><span class="c-keyword">export async function</span> <span class="c-prop">onRequest</span>({ request, next, env }) {
+  <span class="c-comment">// Authorizationヘッダーを確認</span>
+  <span class="c-keyword">const</span> auth = request.headers.get(<span class="c-string">'Authorization'</span>);
+
+  <span class="c-keyword">if</span> (!auth?.startsWith(<span class="c-string">'Bearer '</span>)) {
+    <span class="c-keyword">return new</span> Response(<span class="c-string">'Unauthorized'</span>, { status: <span class="c-value">401</span> });
+  }
+
+  <span class="c-comment">// 認証OKなら次の処理へ</span>
+  <span class="c-keyword">return</span> next();
+}</pre>
+      </div>
+    </div>
+
+    <h2 id="bindings" class="reveal">Workersバインディング</h2>
+    <p class="reveal">
+      Pages FunctionsからCloudflareの各種サービスへ透過的にアクセスできます。
+      追加の認証設定なしに、<code>env</code>オブジェクト経由で安全に利用できます。
+    </p>
+
+    <div class="tabs reveal">
+      <div class="tab-list">
+        <button class="tab-btn active">KV（Key-Value）</button>
+        <button class="tab-btn">D1（データベース）</button>
+        <button class="tab-btn">R2（オブジェクトストレージ）</button>
+        <button class="tab-btn">AI</button>
+      </div>
+      <div class="tab-panel active">
+        <h3>Cloudflare Workers KV</h3>
+        <p>エッジ分散型のKey-Valueストアです。セッション管理・設定値・キャッシュに最適です。</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename">KVの使用例</span>
+          </div>
+          <div class="code-body">
+<pre><span class="c-comment">// wrangler.toml でバインディングを設定</span>
+[[kv_namespaces]]
+binding = <span class="c-string">"MY_KV"</span>
+id = <span class="c-string">"abc123..."</span>
+
+<span class="c-comment">// Pages Functionsから利用</span>
+<span class="c-keyword">export async function</span> <span class="c-prop">onRequest</span>({ env }) {
+  <span class="c-comment">// 書き込み</span>
+  <span class="c-keyword">await</span> env.MY_KV.put(<span class="c-string">"key"</span>, <span class="c-string">"value"</span>, { expirationTtl: <span class="c-value">3600</span> });
+
+  <span class="c-comment">// 読み取り</span>
+  <span class="c-keyword">const</span> value = <span class="c-keyword">await</span> env.MY_KV.get(<span class="c-string">"key"</span>);
+  <span class="c-keyword">return</span> Response.json({ value });
+}</pre>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel">
+        <h3>Cloudflare D1</h3>
+        <p>SQLiteをベースにしたサーバーレスデータベースです。標準SQLで使えます。</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename">D1の使用例</span>
+          </div>
+          <div class="code-body">
+<pre><span class="c-comment">// wrangler.toml</span>
+[[d1_databases]]
+binding = <span class="c-string">"DB"</span>
+database_name = <span class="c-string">"my-database"</span>
+database_id = <span class="c-string">"abc123..."</span>
+
+<span class="c-comment">// SQLクエリを実行</span>
+<span class="c-keyword">export async function</span> <span class="c-prop">onRequest</span>({ env }) {
+  <span class="c-keyword">const</span> { results } = <span class="c-keyword">await</span> env.DB
+    .prepare(<span class="c-string">"SELECT * FROM posts ORDER BY created_at DESC LIMIT 10"</span>)
+    .all();
+
+  <span class="c-keyword">return</span> Response.json(results);
+}</pre>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel">
+        <h3>Cloudflare R2</h3>
+        <p>S3互換のオブジェクトストレージです。画像・動画・ファイルの保存に。</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename">R2の使用例</span>
+          </div>
+          <div class="code-body">
+<pre><span class="c-comment">// ファイルをR2にアップロード</span>
+<span class="c-keyword">export async function</span> <span class="c-prop">onRequestPost</span>({ request, env }) {
+  <span class="c-keyword">const</span> formData = <span class="c-keyword">await</span> request.formData();
+  <span class="c-keyword">const</span> file = formData.get(<span class="c-string">'file'</span>);
+
+  <span class="c-keyword">await</span> env.MY_BUCKET.put(
+    file.name,
+    file.stream(),
+    { httpMetadata: { contentType: file.type } }
+  );
+
+  <span class="c-keyword">return</span> Response.json({ success: <span class="c-keyword">true</span> });
+}</pre>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel">
+        <h3>Cloudflare Workers AI</h3>
+        <p>エッジで動作するAI推論エンジンです。LLM・画像生成・翻訳などが利用可能です。</p>
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+            <span class="code-filename">Workers AIの使用例</span>
+          </div>
+          <div class="code-body">
+<pre><span class="c-comment">// エッジでLLM推論を実行</span>
+<span class="c-keyword">export async function</span> <span class="c-prop">onRequestPost</span>({ request, env }) {
+  <span class="c-keyword">const</span> { prompt } = <span class="c-keyword">await</span> request.json();
+
+  <span class="c-keyword">const</span> response = <span class="c-keyword">await</span> env.AI.run(
+    <span class="c-string">'@cf/meta/llama-3-8b-instruct'</span>,
+    { messages: [{ role: <span class="c-string">'user'</span>, content: prompt }] }
+  );
+
+  <span class="c-keyword">return</span> Response.json(response);
+}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="analytics" class="reveal">Web Analytics</h2>
+    <p class="reveal">
+      Cloudflare Web Analyticsは<strong>プライバシー重視のアクセス解析</strong>ツールです。
+      Cookieを使用せず、IPアドレスも収集しないため、GDPRやCCPAに準拠しやすい設計です。
+    </p>
+
+    <div class="overview-grid stagger">
+      <div class="overview-card">
+        <div class="card-icon">🔒</div>
+        <div class="card-title">Cookieフリー</div>
+        <p class="card-desc">Cookieバナーが不要。GDPRに配慮したプライバシーファーストな計測。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Core Web Vitals</div>
+        <p class="card-desc">LCP・FID・CLSなどのCore Web Vitalsを実際のユーザーデータで計測。SEO改善に活用可能。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🆓</div>
+        <div class="card-title">無料で利用可能</div>
+        <p class="card-desc">Cloudflare Pagesで公開したサイトには追加費用なしでWeb Analyticsが使えます。</p>
+      </div>
+    </div>
+
+    <h2 id="security" class="reveal">セキュリティ機能</h2>
+    <p class="reveal">
+      Cloudflare Pagesはインフラレベルのセキュリティ機能を標準で搭載しています。
+    </p>
+
+    <div class="overview-grid stagger">
+      <div class="overview-card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-title">DDoS保護</div>
+        <p class="card-desc">Cloudflareの大容量ネットワーク（209 Tbps以上）によるDDoS攻撃の自動緩和。設定不要で有効。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🔐</div>
+        <div class="card-title">自動SSL/TLS</div>
+        <p class="card-desc">カスタムドメインに対してLet's Encrypt証明書を自動発行・更新。更新忘れによるHTTPS切れがなくなる。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">ボット管理</div>
+        <p class="card-desc">悪意あるボットのスクレイピング・クローリングをCloudflareのAI判定で自動ブロック。</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🌍</div>
+        <div class="card-title">Geo制限</div>
+        <p class="card-desc">特定の国・地域からのアクセスを制限したり、地域ごとに異なるコンテンツを配信できる。</p>
+      </div>
+    </div>
+
+    <h2 id="access" class="reveal">Cloudflare Access（アクセス制限）</h2>
+    <p class="reveal">
+      <strong>Cloudflare Access</strong>を使うと、特定のユーザー・グループのみがサイトにアクセスできるよう制限できます。
+      社内向けサイトや、ステージング環境の保護に最適です。
+    </p>
+
+    <div class="info-box reveal">
+      <div class="info-box-title">🔑 Accessで使える認証方法</div>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-light);">
+        Google Workspace / Microsoft 365 / GitHub / Okta / OneLogin / SAML 2.0 など主要なIdPに対応。
+        ワンタイムパスコード（メール認証）も使えるため、既存のIdPがなくてもすぐに導入できます。
+      </p>
+    </div>
+
+    <div class="steps reveal" style="max-width:100%;">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Cloudflare Zero Trustダッシュボードを開く</h3>
+          <p>Cloudflareダッシュボード → Zero Trust → Access → Applicationsに移動します。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>アプリケーションを作成</h3>
+          <p>「Add an application」→「Self-hosted」を選択し、保護するドメイン（例: preview.example.com）を設定します。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>アクセスポリシーを設定</h3>
+          <p>誰がアクセスできるかのルールを定義します。例：「メールドメインが @company.com のユーザーのみ許可」</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="image" class="reveal">画像最適化</h2>
+    <p class="reveal">
+      Cloudflareの<strong>Image Resizing</strong>機能をPages Functionsと組み合わせると、
+      オンザフライで画像のリサイズ・フォーマット変換ができます。
+    </p>
+
+    <div class="code-block reveal">
+      <div class="code-header">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+        <span class="code-filename">functions/images/[...path].js</span>
+      </div>
+      <div class="code-body">
+<pre><span class="c-comment">// /images/photo.jpg?w=800&f=webp のリクエストを処理</span>
+<span class="c-keyword">export async function</span> <span class="c-prop">onRequest</span>({ request, params }) {
+  <span class="c-keyword">const</span> url = <span class="c-keyword">new</span> URL(request.url);
+  <span class="c-keyword">const</span> width  = url.searchParams.get(<span class="c-string">'w'</span>) || <span class="c-value">1200</span>;
+  <span class="c-keyword">const</span> format = url.searchParams.get(<span class="c-string">'f'</span>) || <span class="c-string">'webp'</span>;
+
+  <span class="c-keyword">const</span> imageUrl = <span class="c-string">`https://assets.example.com/${params.path}`</span>;
+
+  <span class="c-keyword">return</span> fetch(imageUrl, {
+    cf: {
+      image: {
+        width:  Number(width),
+        format: format,      <span class="c-comment">// webp, avif, jpeg, png</span>
+        quality: <span class="c-value">85</span>,
+        fit: <span class="c-string">'scale-down'</span>
+      }
+    }
+  });
+}</pre>
+      </div>
+    </div>
+
+    <div class="page-nav">
+      <a href="deployment.html" class="page-nav-item">
+        <div class="page-nav-label">← 前へ</div>
+        <div class="page-nav-title">⚙️ デプロイの仕組み</div>
+      </a>
+      <a href="pricing.html" class="page-nav-item next">
+        <div class="page-nav-label">次へ →</div>
+        <div class="page-nav-title">💰 料金プラン</div>
+      </a>
+    </div>
+  </main>
+</div>
+
+<div class="cta-section reveal">
+  <h2>料金を確認して始めよう</h2>
+  <p>次のページでは無料プランで何ができるか、有料プランとの違いを詳しく比較します</p>
+  <a href="pricing.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);">💰 料金プランを見る</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo" style="color:#fff;"><div class="logo-icon">☁️</div>CF Pages Guide</a>
+        <p>Cloudflare Pagesの使い方を日本語でわかりやすく解説する非公式ガイドサイトです。</p>
+      </div>
+      <div class="footer-col">
+        <h4>ガイド</h4>
+        <ul class="footer-links">
+          <li><a href="what-is.html">Pagesとは</a></li>
+          <li><a href="getting-started.html">はじめ方</a></li>
+          <li><a href="deployment.html">デプロイ</a></li>
+          <li><a href="features.html">機能</a></li>
+          <li><a href="pricing.html">料金</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CF Pages Guide — 非公式サイト</span>
+      <span class="footer-note">このサイトはCloudflareの公式サイトではありません</span>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" title="トップへ戻る">↑</button>
+<script src="../js/main.js"></script>
+</body>
+</html>
